@@ -12,7 +12,6 @@ subroutine multiplicationToSingularResultTest()
   real ( kind = 8) :: m(1,1) ! macierz wynikowa
   integer ( kind = 4) :: stat! kod błędu, 0 gdy OK
 
-  stat = 0
   f= 1
   s= 2
   call mm(f, s, m, stat)
@@ -20,4 +19,59 @@ subroutine multiplicationToSingularResultTest()
 
   @assertEqual(stat,0)
   @assertTrue(All(m == 4))
+end subroutine
+
+@Test
+subroutine signularMatricesTest()
+  use pfunit_mod
+  use _MODULE
+  implicit none
+  real ( kind = 8) :: f(1,1) ! pierwsza macierz
+  real ( kind = 8) :: s(1 ,1) ! druga macierz
+  real ( kind = 8) :: m(1,1) ! macierz wynikowa
+  real ( kind = 8) :: expected(1,1) ! macierz wynikowa
+  integer ( kind = 4) :: stat! kod błędu, 0 gdy OK
+
+  f= 2
+  s= 3
+  expected = reshape([6], shape(expected))
+  call mm(f, s, m, stat)
+
+  @assertEqual(stat,0)
+  @assertEqual(m,expected)
+end subroutine
+
+
+@Test
+subroutine mismachedDimensionsFailTest()
+  use pfunit_mod
+  use _MODULE
+  implicit none
+  real ( kind = 8) :: f(1,2) ! pierwsza macierz
+  real ( kind = 8) :: s(3,4) ! druga macierz
+  real ( kind = 8) :: m(1,1) ! macierz wynikowa
+  integer ( kind = 4) :: stat! kod błędu, 0 gdy OK
+
+  f= 0
+  s= 0
+  call mm(f, s, m, stat)
+
+  @assertGreaterThan(stat,0)
+end subroutine
+
+@Test
+subroutine mismachedResultDimensionsFailTest()
+  use pfunit_mod
+  use _MODULE
+  implicit none
+  real ( kind = 8) :: f(1,2) ! pierwsza macierz
+  real ( kind = 8) :: s(2,3) ! druga macierz
+  real ( kind = 8) :: m(1,1) ! macierz wynikowa
+  integer ( kind = 4) :: stat! kod błędu, 0 gdy OK
+
+  f= 0
+  s= 0
+  call mm(f, s, m, stat)
+
+  @assertGreaterThan(stat,0)
 end subroutine
