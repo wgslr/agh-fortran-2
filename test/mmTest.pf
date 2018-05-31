@@ -1,7 +1,23 @@
-@Test
-subroutine firstTest()
-  use pfunit_mod
-  implicit none
+#ifndef _MODULE
+! #define _MODULE naive
+#endif
 
-  @assertEqual(1,1)
+@Test
+subroutine multiplicationToSingularResultTest()
+  use pfunit_mod
+  use _MODULE
+  implicit none
+  real ( kind = 8) :: f(1,2) ! pierwsza macierz
+  real ( kind = 8) :: s(2 ,1) ! druga macierz
+  real ( kind = 8) :: m(1,1) ! macierz wynikowa
+  integer ( kind = 4) :: stat! kod błędu, 0 gdy OK
+
+  stat = 0
+  f= 1
+  s= 2
+  call mm(f, s, m, stat)
+
+
+  @assertEqual(stat,0)
+  @assertTrue(All(m == 4))
 end subroutine
