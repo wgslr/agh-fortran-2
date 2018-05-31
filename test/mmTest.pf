@@ -1,0 +1,7 @@
+@Test
+subroutine firstTest()
+  use pfunit_mod
+  implicit none
+
+  @assertEqual(1,1)
+end subroutine
