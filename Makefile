@@ -60,6 +60,6 @@ clean:
 testall:
 	for i in $(MODULES); do make t_$$i MODULE=$$i -B; done
 	for i in $(MODULES); do \
-		echo -e "\n\nTesting module $$i"; \
+		echo -e "\033[0;36m\n\nTesting module $$i\033[0;m"; \
 		./t_$$i; \
 	done
