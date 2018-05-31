@@ -5,6 +5,8 @@ F90_VENDOR = Intel
 # module under testing
 MODULE=naive
 
+MODULES=dot naive
+
 SDIR=src
 ODIR=out
 TDIR=test
@@ -17,8 +19,7 @@ FFLAGS += -g
 FFLAGS += -I$(PFUNIT)/mod -I$(PFUNIT)/include 
 LIBS = $(PFUNIT)/lib/libpfunit$(LIB_EXT)
 
-FS = $(wildcard src/*.F90)
-FS =$(SDIR)/naive.F90
+FS = $(filter-out $(SDIR)/main.F90, $(wildcard $(SDIR)/*.F90))
 PFS = $(wildcard test/*.pf)
 OBJS = $(FS:$(SDIR)/%.F90=$(ODIR)/%.o)
 POBJS = $(PFS:$(TDIR)/%.pf=$(TODIR)/%.o)
@@ -45,12 +46,20 @@ $(TODIR)/%.F90: $(TDIR)/%.pf
 # test: testSuites.inc out/mmTest.o
 # 	echo $^
 
-t: testSuites.inc $(POBJS) $(OBJS)
+t_$(MODULE): testSuites.inc $(POBJS) $(OBJS)
 	$(F90) -o $@ -I$(PFUNIT)/mod -I$(PFUNIT)/include \
 				$(PFUNIT)/include/driver.F90 \
 				$(OBJS) $(POBJS) $(FLAGS) $(FFLAGS) $(LIBS)
-test: t
-	./t
+
+test: t_$(MODULE)
+	./t_$(MODULE)
 
 clean:
 	$(RM) $(ODIR)/* $(TODIR)/*
+
+testall:
+	for i in $(MODULES); do make t_$$i MODULE=$$i -B; done
+	for i in $(MODULES); do \
+		echo -e "\n\nTesting module $$i"; \
+		./t_$$i; \
+	done
