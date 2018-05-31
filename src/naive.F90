@@ -1,17 +1,3 @@
-! module naive
-!   implicit none
-
-!   interface
-!         subroutine mm(first, second, multiply, status)
-!             implicit none
-!             real ( kind = 8), intent(in) :: first(:,:) ! pierwsza macierz
-!             real ( kind = 8), intent(in) :: second(: ,:) ! druga macierz
-!             real ( kind = 8), intent(out) :: multiply(:,:) ! macierz wynikowa
-!             integer ( kind = 4), intent(out) :: status ! kod błędu, 0 gdy OK
-!         end subroutine
-!   end interface
-! end module
-
 module naive
   contains
   subroutine mm(first, second, multiply, status)
@@ -33,8 +19,7 @@ module naive
       return
     end if
 
-    ! if (resultshape /= (/rows1, cols2/)) then
-    if (ANY(abs(resultshape - (/rows1, cols2/)) /= 0)) then
+    if (ANY((resultshape - (/rows1, cols2/)) /= 0)) then
       status = 2
       return
     end if
