@@ -48,7 +48,7 @@ t:
 				$(PFUNIT)/include/driver.F90 \
 				$(OBJS) $(TOBJS) $(FLAGS) $(FFLAGS) $(LIBS)
 
-t_%: $(PFS) $(FS)
+t_%: $(OBJS) $(TOBJS)
 	make -B t MODULE=$*
 
 # t_$(MODULE): testSuites.inc $(TOBJS) $(OBJS)
