@@ -27,4 +27,4 @@ To generate measurements for all strategies run `make measure`. Results will be 
 ## Results
 
 Using jupyter python notebook a timing graph can be generated:  
-![time](times.png)
+![time](./time.png)
