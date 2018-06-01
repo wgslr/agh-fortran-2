@@ -13,13 +13,13 @@ subroutine multiplicationToSingularResultTest()
   real ( kind = 8) :: expected(1,1) ! macierz wynikowa
   integer ( kind = 4) :: stat! kod błędu, 0 gdy OK
 
-  f= 1
-  s= 2
-  expected = reshape([4], shape(expected))
+  f= 1.1
+  s= 2.3
+  expected = reshape([1.1 * 2.3 * 2], shape(expected))
   call mm(f, s, m, stat)
 
   @assertEqual(stat,0)
-  @assertEqual(m, expected)
+  @assertEqual(m, expected, 1.0d-5)
 end subroutine
 
 @Test
@@ -164,5 +164,5 @@ subroutine hugeMatrixTest()
   call mm(f, s, m, stat)
 
   @assertEqual(stat, 0)
-  @assertEqual(m, expected)
+  @assertEqual(m, expected, 1.0d-3)
 end subroutine
