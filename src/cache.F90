@@ -8,7 +8,6 @@ module cache
     integer ( kind = 4) :: rows1, rows2, cols1, cols2 ! kod błędu, 0 gdy OK
     integer ( kind = 4) :: resultshape(2)
     integer(kind = 4) :: i, j, k, jj, kk
-    real (kind = 8) :: sum
     integer (kind = 4) :: ichunk
 
     rows1 = size(first, 1)

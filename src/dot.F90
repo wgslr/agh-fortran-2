@@ -5,7 +5,7 @@ module dot
     real ( kind = 8), intent(in) :: second(: ,:) ! druga macierz
     real ( kind = 8), intent(out) :: multiply(:,:) ! macierz wynikowa
     integer ( kind = 4), intent(out) :: status ! kod błędu, 0 gdy OK
-    integer ( kind = 4) :: rows1, rows2, cols1, cols2, r, c, i ! kod błędu, 0 gdy OK
+    integer ( kind = 4) :: rows1, rows2, cols1, cols2, r, c! kod błędu, 0 gdy OK
     integer ( kind = 4) :: resultshape(2)
 
     rows1 = size(first, 1)
