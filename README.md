@@ -33,3 +33,7 @@ dimension) can be generated:
 Interestingly, most methods perform poorer than the no-implementation method,
 which is on par with the builtin `matmul` function.
 
+The same graph can be generated in relation to matrix _area_:  
+![time](./area2.png)
+
+
