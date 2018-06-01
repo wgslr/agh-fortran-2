@@ -5,7 +5,7 @@ F90_VENDOR = Intel
 # module under testing
 MODULE=naive
 
-MODULES=dot naive cache dotcache
+MODULES=naive dot cache dotcache builtin
 
 SDIR=src
 ODIR=out
