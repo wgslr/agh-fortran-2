@@ -44,4 +44,9 @@ module dotcache
 
     status = 0
   end subroutine
+
+  function modname()
+    character(len=32) :: modname
+    modname="dotcache"
+  end function
 end module

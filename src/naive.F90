@@ -36,4 +36,9 @@ module naive
 
     status = 0
   end subroutine
+
+  function modname()
+    character(len=32) :: modname
+    modname="naive"
+  end function
 end module

@@ -47,4 +47,9 @@ module cache
 
     status = 0
   end subroutine
+
+  function modname()
+    character(len=32) :: modname
+    modname="cache"
+  end function
 end module

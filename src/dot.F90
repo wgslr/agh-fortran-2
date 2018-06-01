@@ -34,4 +34,9 @@ module dot
 
     status = 0
   end subroutine
+
+  function modname()
+    character(len=32) :: modname
+    modname="dot"
+  end function
 end module
