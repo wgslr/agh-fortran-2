@@ -26,5 +26,10 @@ To generate measurements for all strategies run `make measure`. Results will be 
 
 ## Results
 
-Using jupyter python notebook a timing graph can be generated:  
-![time](./time.png)
+Using jupyter python notebook a graph of time [seconds] vs matrix size (in one
+dimension) can be generated:  
+![time](./times2.png)
+
+Interestingly, most methods perform poorer than the no-implementation method,
+which is on par with the builtin `matmul` function.
+
