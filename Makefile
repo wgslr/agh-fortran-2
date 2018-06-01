@@ -43,16 +43,23 @@ $(TODIR)/%.o: $(TDIR)/%.F90
 $(TODIR)/%.F90: $(TDIR)/%.pf
 	$(PFUNIT)/bin/pFUnitParser.py $< $@
 
-t_$(MODULE): testSuites.inc $(TOBJS) $(OBJS)
-	$(F90) -o $@ -I$(PFUNIT)/mod -I$(PFUNIT)/include \
+t:
+	$(F90) -o $@_$(MODULE) -I$(PFUNIT)/mod -I$(PFUNIT)/include \
 				$(PFUNIT)/include/driver.F90 \
 				$(OBJS) $(TOBJS) $(FLAGS) $(FFLAGS) $(LIBS)
+
+t_%: $(PFS) $(FS)
+	make -B t MODULE=$*
+
+# t_$(MODULE): testSuites.inc $(TOBJS) $(OBJS)
+# 	$(F90) -o $@ -I$(PFUNIT)/mod -I$(PFUNIT)/include \
+# 				$(PFUNIT)/include/driver.F90 \
+# 				$(OBJS) $(TOBJS) $(FLAGS) $(FFLAGS) $(LIBS)
 
 test: t_$(MODULE)
 	./t_$(MODULE)
 
-testall: $(OBJS)
-	for i in $(MODULES); do make t_$$i MODULE=$$i -B; done
+testall: $(addprefix t_,$(MODULES))
 	for i in $(MODULES); do \
 		echo -e "\033[0;36m\n\nTesting module $$i\033[0;m"; \
 		./t_$$i; \
