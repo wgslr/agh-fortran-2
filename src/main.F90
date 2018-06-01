@@ -5,65 +5,47 @@
 program main
   use _MODULE
   implicit none
+  integer ( kind = 8) :: i, n, step, parse_result
+  character(len=10) :: arg
 
-  ! real ( kind = 8) :: first(2,3) ! pierwsza macierz
-  ! real ( kind = 8) :: second(3 ,2) ! druga macierz
-  ! real ( kind = 8) :: multiply(2,2) ! macierz wynikowa
-  integer ( kind = 4) :: i
+  if (command_argument_count() .NE. 2) then
+    n = 1000
+    step = 1
+  else
+    call get_command_argument(1, arg)
+    read(arg, *, iostat=parse_result) n
+    call get_command_argument(2, arg)
+    read(arg, *, iostat=parse_result) step
+  end if
 
-  ! first = reshape([1, 4, 2, 5, 3, 6], shape(first))
-  ! second = reshape([10, 1000, 100000, 100, 10000, 1000000], shape(second))
-  
-  ! print *, first
-  ! print *, second
-  ! print *, multiply
-  ! call mm(first, second, multiply, status)
-  ! print *, "Called mm"
-  ! print *, multiply
-  ! print *
-  ! print *, MATMUL(first, second)
-
-  print *, modname()
-
-  do i = 10, 30, 1
-    print *, i
-    call measure(i)
-  end do
-  do i = 600, 610, 1
-    print *, i
-    call measure(i)
-  end do
-
-  do i = 580, 600, 1
-    print *, i
-    call measure(i)
-  end do
-
-  do i = 1, 1000, 10
+  do i = 1, n, step
     call measure(i)
   end do
   contains
 
-  subroutine measure(size)
+  subroutine measure(isize)
     implicit none
-    integer (kind=4) :: status, clock, size
-    real (kind=8) :: first(size,size), second(size, size), multiply(size, size), start, stop
+    integer (kind=4) :: status
+    integer (kind=8), intent(in) :: isize
+    real (kind=8), allocatable :: first(:,:), second(:, :), multiply(:, :)
+    real (kind=8) :: start, stop
 
-    first = 1.5
-    second = 2.5
+    allocate(first(isize, isize))
+    allocate(second(isize, isize))
+    allocate(multiply(isize, isize))
 
-    ! call start_clock(clock)
+    first = 1.1
+    second = 2.3
 
-    ! call cpu_time(start)
-
+    call cpu_time(start)
     call mm(first, second, multiply, status)
+    call cpu_time(stop)
 
-!  result   write(*, *) 'dtime : ', dtime
-        ! put code to test here
-    ! call cpu_time(stop)
-    ! print *, size
-    print '("Time = ",f6.3," seconds.")', (stop - start)
+    print '(A,";",i6,";",f10.7,"")', modname(), isize,(stop - start)
 
+    deallocate(first)
+    deallocate(second)
+    deallocate(multiply)
   end subroutine
 
 end program main

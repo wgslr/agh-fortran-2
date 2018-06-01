@@ -26,7 +26,7 @@ module dot
 
     multiply = 0
 
-    do r = 1, rows1 
+    do r = 1, rows1
       do c = 1, cols2
         multiply(r, c) = dot_product(first(r, :), second(:, c))
       end do

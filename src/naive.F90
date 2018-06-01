@@ -26,7 +26,7 @@ module naive
 
     multiply = 0
 
-    do r = 1, rows1 
+    do r = 1, rows1
       do c = 1, cols2
         do i = 1, cols1
           multiply(r, c) = multiply(r, c) + first(r, i) * second(i, c)

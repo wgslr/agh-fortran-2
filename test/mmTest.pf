@@ -1,5 +1,5 @@
 #ifndef _MODULE
-! #define _MODULE naive
+ #define _MODULE naive
 #endif
 
 @Test
@@ -147,6 +147,35 @@ subroutine hugeMatrixTest()
   real ( kind = 8) :: s(2000,3000) ! druga macierz
   real ( kind = 8) :: m(1000,3000) ! macierz wynikowa
   real ( kind = 8) :: expected(1000, 3000)
+  integer ( kind = 4) :: stat, i,j! kod błędu, 0 gdy OK
+
+  do i = 1, size(f, 1)
+    do j = 1, size(f, 2)
+      f(i,j) = i * j * 0.25
+    end do
+  end do
+  do i = 1, size(s, 1)
+    do j = 1, size(s, 2)
+      s(i,j) = i * j * 0.10
+    end do
+  end do
+
+  expected = matmul(f,s)
+  call mm(f, s, m, stat)
+
+  @assertEqual(stat, 0)
+  @assertEqual(m, expected, 1.0d-3)
+end subroutine
+
+@Test
+subroutine squareMatrixTest()
+  use pfunit_mod
+  use _MODULE
+  implicit none
+  real ( kind = 8) :: f(591,591) ! pierwsza macierz
+  real ( kind = 8) :: s(591,591) ! druga macierz
+  real ( kind = 8) :: m(591,591) ! macierz wynikowa
+  real ( kind = 8) :: expected(591, 591)
   integer ( kind = 4) :: stat, i,j! kod błędu, 0 gdy OK
 
   do i = 1, size(f, 1)
