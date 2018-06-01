@@ -41,7 +41,7 @@ program main
     call mm(first, second, multiply, status)
     call cpu_time(stop)
 
-    print '(A,";",i6,";",f10.7,"")', modname(), isize,(stop - start)
+    print '(A,";",i6,";",f15.7,"")', modname(), isize,(stop - start)
 
     deallocate(first)
     deallocate(second)
