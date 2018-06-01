@@ -31,7 +31,7 @@ all: $(OBJS)
 
 main: $(ODIR)/main.o
 
-$(ODIR)/main.o: $(SDIR)/*.F90
+$(ODIR)/main.o:  $(SDIR)/main.F90  $(ODIR)/$(MODULE).o
 	$(FC) $^ -o $@ $(FFLAGS)
 
 $(ODIR)/%.o: $(SDIR)/%.F90
@@ -51,11 +51,6 @@ t:
 t_%: $(OBJS) $(TOBJS)
 	make -B t MODULE=$*
 
-# t_$(MODULE): testSuites.inc $(TOBJS) $(OBJS)
-# 	$(F90) -o $@ -I$(PFUNIT)/mod -I$(PFUNIT)/include \
-# 				$(PFUNIT)/include/driver.F90 \
-# 				$(OBJS) $(TOBJS) $(FLAGS) $(FFLAGS) $(LIBS)
-
 test: t_$(MODULE)
 	./t_$(MODULE)
 
@@ -65,5 +60,16 @@ testall: $(addprefix t_,$(MODULES))
 		./t_$$i; \
 	done
 
+measure:
+	for i in $(MODULES); do \
+		make main -B MODULE=$$i; \
+		echo -e "\033[0;36m\n\nMeasuring performance of $$i\033[0;m"; \
+		./out/main.o 5000 100 > times.$$i.csv; \
+		cat times.$$i.csv >> times.csv; \
+	done
+
+		# s./out/main.o 2000 5 > times.$$i.csv; \
+
 clean:
 	$(RM) $(ODIR)/* $(TODIR)/* */.mod
+
