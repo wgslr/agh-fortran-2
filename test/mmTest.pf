@@ -143,10 +143,10 @@ subroutine hugeMatrixTest()
   use pfunit_mod
   use _MODULE
   implicit none
-  real ( kind = 8) :: f(100,2000) ! pierwsza macierz
-  real ( kind = 8) :: s(2000,500) ! druga macierz
-  real ( kind = 8) :: m(100,500) ! macierz wynikowa
-  real ( kind = 8) :: expected(100, 500)
+  real ( kind = 8) :: f(1000,2000) ! pierwsza macierz
+  real ( kind = 8) :: s(2000,3000) ! druga macierz
+  real ( kind = 8) :: m(1000,3000) ! macierz wynikowa
+  real ( kind = 8) :: expected(1000, 3000)
   integer ( kind = 4) :: stat, i,j! kod błędu, 0 gdy OK
 
   do i = 1, size(f, 1)
